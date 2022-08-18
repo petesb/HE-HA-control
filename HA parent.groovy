@@ -66,6 +66,7 @@
 * 0.1.43 2022-05-10 tomw               Added support for Curtain device_class
 * 0.1.44 2022-05-15 tomw               Added support for Shade device_class
 * 0.1.46 2022-07-04 tomw               Advanced configuration - manual add/remove of devices; option to disable filtering; unused child cleanup
+* 0.1.47 2022-08-17 petesb             Added support for Vacuum device_class
 *
 * Thank you(s):
 */
@@ -193,6 +194,10 @@ def parse(String description) {
         if (logEnable) log.debug "parse: domain: ${domain}, device_class: ${device_class}, entity: ${entity}, newVals: ${newVals}, friendly: ${friendly}"
         
         switch (domain) {
+            case "vacuum":
+		def status = response?.event?.data?.new_state?.attributes?.speed?.toLowerCase()
+                choices =  ["dock","medium-low","medium","medium-high","high","auto"]
+		break
             case "fan":
                 def speed = response?.event?.data?.new_state?.attributes?.speed?.toLowerCase()
                 choices =  ["low","medium-low","medium","medium-high","high","auto"]
